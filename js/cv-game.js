@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const PLAYER_SPEED = 4;
     const SWORD_RANGE = 60;
     const SWORD_SWING_DURATION = 15; // frames
+    const SWORD_DAMAGE = 34;
 
     const COLORS = {
         wall: '#111',
@@ -98,8 +99,9 @@ document.addEventListener('DOMContentLoaded', () => {
                  {id: 0, x: 350, y: 450, w: 100, h: 50, hp: 0, maxHp: 100, target: 'hub', label: 'Back to Hub', color: '#666', open: true}
             ],
             docs: [
-                {x: 100, y: 150, w: 40, h: 40, title: 'Amadeus (via ALTEN) (2024-Present)', content: '<h3>Backend Software Developer & Scrum Master</h3><p>Develop Revenue Management features using C++, Scala, Python, Bash, CI/CD, and MongoDB; support the Azure migration and production deployments.</p><p>Build and review Claude Opus development agents, improve deprecated or untested code, and interview ALTEN developer candidates.</p><p>Facilitate SAFe ceremonies and coordinate planning with technical and business stakeholders.</p>'},
-                {x: 650, y: 150, w: 40, h: 40, title: 'Coding Giants (2023-2024)', content: '<h3>Coding Teacher</h3><p>Role: Teaching basics of coding and videogame programming to kids (Scratch, Minecraft Education).</p>'},
+                {x: 380, y: 300, w: 40, h: 40, title: 'Amadeus - Backend Software Developer', content: '<h3>Backend Software Developer</h3><p><b>Amadeus, via ALTEN contractor | Nice, France | Jan 2024 - Present</b></p><p><b>Tools:</b> C++, Scala, Python, Bash, Claude, CI/CD, MongoDB</p><ul><li>Develop Revenue Management features for demand forecasting and dynamic ticket pricing.</li><li>Support the migration from Erding to Azure.</li><li>Create integration tests and maintain the Python CI/CD test suite.</li><li>Build, integrate, and review Claude Opus development agents.</li><li>Use AI to improve deprecated or untested code.</li><li>Maintain cross-batch Scala repositories.</li><li>Coordinate production deployments with the Changes Control Board.</li><li>Host technical interviews for ALTEN developer candidates.</li></ul>'},
+                {x: 140, y: 150, w: 40, h: 40, title: 'Amadeus - Scrum Master', content: '<h3>Scrum Master</h3><p><b>Amadeus, via ALTEN contractor | Jan 2025 - Present</b></p><p><b>Tools:</b> SAFe, Agile, Jira</p><ul><li>Facilitate daily and weekly work and SAFe ceremonies.</li><li>Coordinate planning with other Scrums, the RTE, Product Manager, System Architect, and Business Owners.</li><li>Ensure Scrum objectives agreed with management are accomplished.</li><li>Lead Quality-topic refinement and reserve resources for technical debt.</li></ul>'},
+                {x: 620, y: 150, w: 40, h: 40, title: 'Coding Giants - Coding Teacher', content: '<h3>Coding Teacher</h3><p><b>Coding Giants | Remote | Sep 2023 - Jan 2024</b></p><p><b>Tools:</b> Scratch, Minecraft Education</p><p>Taught coding fundamentals and videogame programming to students aged 7-16 through one-shot classes and structured courses.</p>'}
             ]
         },
         'education': {
@@ -114,9 +116,9 @@ document.addEventListener('DOMContentLoaded', () => {
                  {id: 0, x: 0, y: 200, w: 50, h: 100, hp: 0, maxHp: 100, target: 'hub', label: 'Back', color: '#666', open: true}
             ],
             docs: [
-                {x: 200, y: 150, w: 40, h: 40, title: 'LUT University (Finland)', content: '<h3>MSc in Technology</h3><p><b>Computational Engineering:</b> Computer Vision & Pattern Recognition.</p><p>Tags: Machine Learning, UX Design, GPGPU Computing.</p>'},
-                {x: 550, y: 150, w: 40, h: 40, title: 'Politecnico di Milano', content: '<h3>MSc Computer Science & Engineering</h3><p>Grade: 92/110. Specialization in AI.</p><p>Thesis: "Human Micro Gesture Recognition by Adversarial Training".</p>'},
-                {x: 375, y: 350, w: 40, h: 40, title: 'Unimore', content: '<h3>Bachelor Computer Engineering</h3><p>Grade: 93/110.</p><p>Thesis: "Drivers Manager Project" (Django).</p>'}
+                {x: 180, y: 150, w: 40, h: 40, title: 'Lappeenranta-Lahti University of Technology', content: '<h3>Master of Science in Technology</h3><p><b>Lappeenranta, Finland</b></p><p>Computer Vision and Pattern Recognition within Computational Engineering and Technical Physics.</p><p><b>Topics:</b> Machine Learning, UX Design, GPGPU Computing</p>'},
+                {x: 560, y: 150, w: 40, h: 40, title: 'Politecnico di Milano', content: '<h3>Master of Science - Computer Science and Engineering</h3><p><b>Milan, Italy | Grade: 92/110</b></p><p><b>Specialization:</b> Artificial Intelligence</p><p><b>Master Thesis:</b> <a href="https://drive.google.com/file/d/1zclPkAC232IkhAycl-xXkfR6Jo307D3W/view?usp=sharing" target="_blank" style="color: #60a5fa">Human Micro Gesture Recognition by Adversarial Training</a> (Python)</p>'},
+                {x: 370, y: 340, w: 40, h: 40, title: 'University of Modena and Reggio Emilia', content: '<h3>Bachelor Degree - Computer Engineering</h3><p><b>Modena, Italy | Grade: 93/110</b></p><p>Department of Engineering "Enzo Ferrari".</p><p><b>Bachelor Thesis:</b> <a href="https://drive.google.com/file/d/1Y-gcaBoKBj2wpza-Gsdh22TtwyI_DkuA/view?usp=sharing" target="_blank" style="color: #60a5fa">Drivers Manager Project</a> (Django)</p>'}
             ]
         },
         'projects': {
@@ -131,9 +133,9 @@ document.addEventListener('DOMContentLoaded', () => {
                  {id: 0, x: 350, y: 0, w: 100, h: 50, hp: 0, maxHp: 100, target: 'hub', label: 'Back', color: '#666', open: true}
             ],
             docs: [
-                {x: 250, y: 250, w: 40, h: 40, title: 'Kiyo and the Unreliable Hero', content: '<h3>Videogame Beta (Unity/C#)</h3><p>Winner of InsertCoin 2021.</p><p>Team project developed in 3 months. Available on Itch.io.</p><p><a href="https://polimi-game-collective.itch.io/kiyo-and-the-unreliable-hero" target="_blank" style="color: #60a5fa">Play Here</a></p>'},
-                {x: 500, y: 250, w: 40, h: 40, title: 'CGRed - Vulkan Engine', content: '<h3>Platform Maker (C++/Vulkan)</h3><p>Low-level graphics programming project.</p><p>Demonstration of custom game engine capabilities.</p><p><a href="https://youtu.be/1tNf1K6NSZ0" target="_blank" style="color: #60a5fa">Watch Video</a></p>'},
-                {x: 375, y: 350, w: 40, h: 40, title: 'Carpool Planner', content: '<h3>University Project</h3><p>Self-hosted Python/FastAPI app for assigning drivers and passengers, optimizing pickup routes, and gathering trip details through guest links.</p><p><a href="https://github.com/simo-cmos/carpool-planner" target="_blank" style="color: #60a5fa">View on GitHub</a></p>'}
+                {x: 180, y: 250, w: 40, h: 40, title: 'Kiyo and the Unreliable Hero', content: '<h3>Videogame Beta | Sep 2020 - Feb 2021</h3><p><b>Tools:</b> C#, Unity</p><ul><li>Team project with developers, a Game Designer, and a Graphics Designer.</li><li>Developed the beta in a three-month schedule with intermediate milestones.</li><li>Winner of InsertCoin - GameDev Convention 2021 and presented at Comicon 2021 in Naples.</li></ul><p><a href="https://polimi-game-collective.itch.io/kiyo-and-the-unreliable-hero" target="_blank" style="color: #60a5fa">Play on Itch.io</a></p>'},
+                {x: 560, y: 250, w: 40, h: 40, title: 'CGRed - Platform Maker with Vulkan', content: '<h3>Videogame Alpha | Apr 2023 - Sep 2023</h3><p><b>Tools:</b> Vulkan, OpenGL</p><p>Team project created to explore Vulkan potential for low-level graphics programming.</p><p><a href="https://youtu.be/1tNf1K6NSZ0" target="_blank" style="color: #60a5fa">Watch the video</a></p>'},
+                {x: 370, y: 350, w: 40, h: 40, title: 'Carpool Planner', content: '<h3>Personal Project</h3><p><b>Tools:</b> Python, FastAPI, SQLite, Leaflet</p><p>Designed a self-hosted web app for assigning drivers and passengers, optimizing pickup routes, and collecting trip details through shareable guest links.</p><p><a href="https://github.com/simo-cmos/carpool-planner" target="_blank" style="color: #60a5fa">View on GitHub</a></p>'}
             ]
         },
         'skills': {
@@ -274,7 +276,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (attackX > door.x && attackX < door.x + door.w &&
                     attackY > door.y && attackY < door.y + door.h) {
                     
-                    door.hp -= 20; // Damage
+                    door.hp -= SWORD_DAMAGE;
                     createParticles(attackX, attackY, '#fff', 5);
                     
                     if (door.hp <= 0) {
