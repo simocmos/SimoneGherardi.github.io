@@ -98,9 +98,8 @@ document.addEventListener('DOMContentLoaded', () => {
                  {id: 0, x: 350, y: 450, w: 100, h: 50, hp: 0, maxHp: 100, target: 'hub', label: 'Back to Hub', color: '#666', open: true}
             ],
             docs: [
-                {x: 100, y: 150, w: 40, h: 40, title: 'Amadeus (via ALTEN) (2024-Present)', content: '<h3>Backend Software Developer & Scrum Master</h3><p>Develop features for Revenue Management Solutions Train (SAFe) using C++, Bash, Git, Jenkins, MongoDB.</p><p>Scrum Master facilitating ceremonies and coordinating with management.</p>'},
+                {x: 100, y: 150, w: 40, h: 40, title: 'Amadeus (via ALTEN) (2024-Present)', content: '<h3>Backend Software Developer & Scrum Master</h3><p>Develop Revenue Management features using C++, Scala, Python, Bash, CI/CD, and MongoDB; support the Azure migration and production deployments.</p><p>Build and review Claude Opus development agents, improve deprecated or untested code, and interview ALTEN developer candidates.</p><p>Facilitate SAFe ceremonies and coordinate planning with technical and business stakeholders.</p>'},
                 {x: 650, y: 150, w: 40, h: 40, title: 'Coding Giants (2023-2024)', content: '<h3>Coding Teacher</h3><p>Role: Teaching basics of coding and videogame programming to kids (Scratch, Minecraft Education).</p>'},
-                {x: 350, y: 300, w: 40, h: 40, title: 'Agriturismo Il Lago dei Sogni (2013-2021)', content: '<h3>Waiter & Support Staff</h3><p>Managed customer interactions and supported kitchen operations.</p>'}
             ]
         },
         'education': {
@@ -133,7 +132,8 @@ document.addEventListener('DOMContentLoaded', () => {
             ],
             docs: [
                 {x: 250, y: 250, w: 40, h: 40, title: 'Kiyo and the Unreliable Hero', content: '<h3>Videogame Beta (Unity/C#)</h3><p>Winner of InsertCoin 2021.</p><p>Team project developed in 3 months. Available on Itch.io.</p><p><a href="https://polimi-game-collective.itch.io/kiyo-and-the-unreliable-hero" target="_blank" style="color: #60a5fa">Play Here</a></p>'},
-                {x: 500, y: 250, w: 40, h: 40, title: 'CGRed - Vulkan Engine', content: '<h3>Platform Maker (C++/Vulkan)</h3><p>Low-level graphics programming project.</p><p>Demonstration of custom game engine capabilities.</p><p><a href="https://youtu.be/1tNf1K6NSZ0" target="_blank" style="color: #60a5fa">Watch Video</a></p>'}
+                {x: 500, y: 250, w: 40, h: 40, title: 'CGRed - Vulkan Engine', content: '<h3>Platform Maker (C++/Vulkan)</h3><p>Low-level graphics programming project.</p><p>Demonstration of custom game engine capabilities.</p><p><a href="https://youtu.be/1tNf1K6NSZ0" target="_blank" style="color: #60a5fa">Watch Video</a></p>'},
+                {x: 375, y: 350, w: 40, h: 40, title: 'Carpool Planner', content: '<h3>University Project</h3><p>Self-hosted Python/FastAPI app for assigning drivers and passengers, optimizing pickup routes, and gathering trip details through guest links.</p><p><a href="https://github.com/simo-cmos/carpool-planner" target="_blank" style="color: #60a5fa">View on GitHub</a></p>'}
             ]
         },
         'skills': {
@@ -149,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ],
             docs: [
                 {x: 150, y: 150, w: 40, h: 40, title: 'Advanced Skills', content: '<h3>Tech Stack</h3><ul><li>C++</li><li>Python</li><li>Bash & Git</li><li>C# & Unity</li><li>Agile / SAFe / Jira</li></ul>'},
-                {x: 450, y: 150, w: 40, h: 40, title: 'Good Knowledge', content: '<h3>Tools & Frameworks</h3><ul><li>CI/CD (Jenkins)</li><li>Cloud</li><li>MongoDB</li><li>Web (Django, HTML/CSS)</li><li>Vulkan</li></ul>'},
+                {x: 450, y: 150, w: 40, h: 40, title: 'Good Knowledge', content: '<h3>Tools & Technologies</h3><ul><li>Scala</li><li>MongoDB</li><li>CI/CD (Jenkins)</li><li>Cloud</li><li>Scratch</li><li>Rust</li></ul>'},
                 {x: 150, y: 350, w: 40, h: 40, title: 'Languages', content: '<h3>Spoken Languages</h3><ul><li>Italian (Native)</li><li>English (C1 Proficient)</li><li>French (B2 Upper-Intermediate)</li></ul>'},
                 {x: 450, y: 350, w: 40, h: 40, title: 'Interests', content: '<h3>Hobbies</h3><ul><li>Videogame Design & Programming</li><li>Video Editing</li></ul>'}
             ]
@@ -462,45 +462,199 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function draw() {
-        const level = levels[gameState.currentLevel];
-        
-        // Background
+    function drawFloor(level) {
         ctx.fillStyle = level.background;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+        ctx.save();
+        ctx.globalAlpha = 0.12;
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 1;
+        for (let x = TILE_SIZE; x < canvas.width; x += TILE_SIZE) {
+            ctx.beginPath();
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, canvas.height);
+            ctx.stroke();
+        }
+        for (let y = TILE_SIZE; y < canvas.height; y += TILE_SIZE) {
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(canvas.width, y);
+            ctx.stroke();
+        }
+        ctx.restore();
+    }
+
+    function drawWall(wall) {
+        ctx.fillStyle = COLORS.wall;
+        ctx.fillRect(wall.x, wall.y, wall.w, wall.h);
+        ctx.strokeStyle = '#2f3542';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(wall.x + 1, wall.y + 1, wall.w - 2, wall.h - 2);
+
+        ctx.save();
+        ctx.globalAlpha = 0.45;
+        ctx.strokeStyle = '#475569';
+        ctx.lineWidth = 1;
+        if (wall.w >= wall.h) {
+            for (let x = wall.x + TILE_SIZE; x < wall.x + wall.w; x += TILE_SIZE) {
+                ctx.beginPath();
+                ctx.moveTo(x, wall.y);
+                ctx.lineTo(x, wall.y + wall.h);
+                ctx.stroke();
+            }
+        } else {
+            for (let y = wall.y + TILE_SIZE; y < wall.y + wall.h; y += TILE_SIZE) {
+                ctx.beginPath();
+                ctx.moveTo(wall.x, y);
+                ctx.lineTo(wall.x + wall.w, y);
+                ctx.stroke();
+            }
+        }
+        ctx.restore();
+    }
+
+    function drawDoor(door) {
+        const isHorizontal = door.w > door.h;
+        const centerX = door.x + door.w / 2;
+        const centerY = door.y + door.h / 2;
+
+        ctx.save();
+        ctx.translate(centerX, centerY);
+        if (isHorizontal) ctx.rotate(Math.PI / 2);
+
+        const width = isHorizontal ? door.h : door.w;
+        const height = isHorizontal ? door.w : door.h;
+        const left = -width / 2;
+        const top = -height / 2;
+
+        if (door.hp > 0) {
+            ctx.fillStyle = '#171717';
+            ctx.fillRect(left, top, width, height);
+            ctx.fillStyle = door.color;
+            ctx.fillRect(left + 5, top + 4, width - 10, height - 8);
+
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.22)';
+            ctx.fillRect(left + 10, top + 12, width - 20, height * 0.34);
+            ctx.fillRect(left + 10, top + height * 0.57, width - 20, height * 0.3);
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(left + 10, top + 12, width - 20, height * 0.34);
+            ctx.strokeRect(left + 10, top + height * 0.57, width - 20, height * 0.3);
+
+            ctx.fillStyle = '#fbbf24';
+            ctx.beginPath();
+            ctx.arc(left + width - 12, 0, 3, 0, Math.PI * 2);
+            ctx.fill();
+        } else {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.68)';
+            ctx.fillRect(left, top, width, height);
+            ctx.strokeStyle = door.color;
+            ctx.lineWidth = 4;
+            ctx.strokeRect(left + 3, top + 3, width - 6, height - 6);
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(left + 8, top + 8, width - 16, height - 16);
+        }
+        ctx.restore();
+
+        if (door.hp > 0) {
+            const barY = Math.max(4, door.y - 10);
+            ctx.fillStyle = '#450a0a';
+            ctx.fillRect(door.x, barY, door.w, 5);
+            ctx.fillStyle = '#22c55e';
+            ctx.fillRect(door.x, barY, door.w * (door.hp / door.maxHp), 5);
+
+            ctx.fillStyle = COLORS.text;
+            ctx.font = 'bold 11px Georgia';
+            ctx.textAlign = 'center';
+            ctx.fillText(door.label, centerX, centerY + 4);
+        }
+    }
+
+    function drawDocument(doc) {
+        const foldSize = 10;
+
+        ctx.save();
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.45)';
+        ctx.shadowBlur = 6;
+        ctx.shadowOffsetY = 3;
+        ctx.fillStyle = '#f8fafc';
+        ctx.beginPath();
+        ctx.moveTo(doc.x, doc.y);
+        ctx.lineTo(doc.x + doc.w - foldSize, doc.y);
+        ctx.lineTo(doc.x + doc.w, doc.y + foldSize);
+        ctx.lineTo(doc.x + doc.w, doc.y + doc.h);
+        ctx.lineTo(doc.x, doc.y + doc.h);
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+
+        ctx.fillStyle = '#cbd5e1';
+        ctx.beginPath();
+        ctx.moveTo(doc.x + doc.w - foldSize, doc.y);
+        ctx.lineTo(doc.x + doc.w - foldSize, doc.y + foldSize);
+        ctx.lineTo(doc.x + doc.w, doc.y + foldSize);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.fillStyle = '#3b82f6';
+        ctx.fillRect(doc.x + 6, doc.y + 7, 15, 4);
+        ctx.fillStyle = '#94a3b8';
+        ctx.fillRect(doc.x + 6, doc.y + 16, doc.w - 12, 2);
+        ctx.fillRect(doc.x + 6, doc.y + 22, doc.w - 12, 2);
+        ctx.fillRect(doc.x + 6, doc.y + 28, doc.w - 19, 2);
+        ctx.strokeStyle = '#dbeafe';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(doc.x + 0.5, doc.y + 0.5, doc.w - 1, doc.h - 1);
+    }
+
+    function drawSword(length) {
+        ctx.save();
+
+        ctx.fillStyle = '#78350f';
+        ctx.fillRect(4, -3, 12, 6);
+        ctx.fillStyle = '#fbbf24';
+        ctx.fillRect(14, -8, 5, 16);
+        ctx.beginPath();
+        ctx.arc(4, 0, 4, 0, Math.PI * 2);
+        ctx.fill();
+
+        const bladeStart = 19;
+        ctx.fillStyle = '#e2e8f0';
+        ctx.beginPath();
+        ctx.moveTo(bladeStart, -5);
+        ctx.lineTo(length - 8, -5);
+        ctx.lineTo(length, 0);
+        ctx.lineTo(length - 8, 5);
+        ctx.lineTo(bladeStart, 5);
+        ctx.closePath();
+        ctx.fill();
+        ctx.strokeStyle = '#64748b';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        ctx.strokeStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.moveTo(bladeStart + 3, -2);
+        ctx.lineTo(length - 9, -2);
+        ctx.stroke();
+        ctx.restore();
+    }
+
+    function draw() {
+        const level = levels[gameState.currentLevel];
+        
+        drawFloor(level);
+
         // Draw Walls
-        ctx.fillStyle = COLORS.wall; 
         level.walls.forEach(wall => {
-            ctx.fillRect(wall.x, wall.y, wall.w, wall.h);
+            drawWall(wall);
         });
 
         // Draw Doors
         level.doors.forEach(door => {
-            if (door.hp > 0) {
-                ctx.fillStyle = door.color;
-                ctx.fillRect(door.x, door.y, door.w, door.h);
-                
-                // HP Bar
-                ctx.fillStyle = '#ef4444'; // Red
-                ctx.fillRect(door.x, door.y - 10, door.w, 5);
-                ctx.fillStyle = '#22c55e'; // Green
-                ctx.fillRect(door.x, door.y - 10, door.w * (door.hp / door.maxHp), 5);
-
-                // Label
-                ctx.fillStyle = COLORS.text;
-                ctx.font = '12px Arial';
-                ctx.textAlign = 'center';
-                ctx.fillText(door.label, door.x + door.w/2, door.y + door.h/2);
-            } else {
-                // Open door
-                ctx.fillStyle = 'rgba(0,0,0,0.5)';
-                ctx.fillRect(door.x, door.y, door.w, door.h);
-                // Portal effect
-                ctx.strokeStyle = door.color;
-                ctx.lineWidth = 2;
-                ctx.strokeRect(door.x, door.y, door.w, door.h);
-            }
+            drawDoor(door);
         });
 
         // Draw Documents
@@ -518,13 +672,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ctx.fillText("Press E", doc.x + doc.w/2, doc.y - 20);
             }
 
-            ctx.fillStyle = COLORS.doc;
-            ctx.fillRect(doc.x, doc.y, doc.w, doc.h);
-            // Lines representation
-            ctx.fillStyle = '#9ca3af';
-            ctx.fillRect(doc.x + 5, doc.y + 10, doc.w - 10, 2);
-            ctx.fillRect(doc.x + 5, doc.y + 18, doc.w - 10, 2);
-            ctx.fillRect(doc.x + 5, doc.y + 26, doc.w - 20, 2);
+            drawDocument(doc);
         });
 
         // Draw Player
@@ -538,22 +686,17 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.arc(0, 0, gameState.player.radius, 0, Math.PI * 2);
         ctx.fill();
 
-        // Sword (if attacking)
         if (gameState.player.attacking) {
-            ctx.fillStyle = '#e2e8f0';
             // Swing animation
             const progress = 1 - (gameState.player.attackTimer / SWORD_SWING_DURATION);
             const swingAngle = -Math.PI/3 + (progress * Math.PI * 2/3); // -60deg to +60deg
             
             ctx.rotate(swingAngle);
-            ctx.fillRect(10, -5, 40, 10); // Blade
-            ctx.fillStyle = '#64748b';
-            ctx.fillRect(10, -8, 5, 16); // Guard
+            drawSword(52);
             ctx.rotate(-swingAngle);
         } else {
-            // Idle sword
-             ctx.fillStyle = '#e2e8f0';
-            ctx.fillRect(10, 5, 20, 5);
+            ctx.rotate(Math.PI / 8);
+            drawSword(36);
         }
 
         ctx.restore();

@@ -554,6 +554,16 @@ body {
     .project-content {
         flex-direction: column;
     }
+
+    .project-text {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .project-header {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
     
     .project-video-small {
         flex: auto;
