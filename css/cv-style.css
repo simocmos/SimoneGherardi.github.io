@@ -378,6 +378,26 @@ body {
     margin-bottom: 1.5rem;
 }
 
+.certification-header {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.certification-header > div {
+    flex: 1 1 200px;
+    min-width: 0;
+}
+
+.certification-badge {
+    display: block;
+    width: 96px;
+    max-width: 100%;
+    height: auto;
+    flex-shrink: 0;
+}
+
 .education-header h3 {
     font-size: 1.35rem;
     color: var(--primary-color);
@@ -683,7 +703,7 @@ body {
 
 .contact-link i {
     font-size: 2rem;
-    color: var(--accent-color);
+    color: var(--white);
 }
 
 .contact-link span {
